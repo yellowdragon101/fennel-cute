@@ -1,6 +1,6 @@
-node_modules/
+/node_modules/
 auth.json
+json.json
 log.txt
-package.json
 package-lock.json
 uwu.txt

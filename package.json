@@ -1,0 +1,14 @@
+{
+  "name": "fennel-cute",
+  "version": "1.0.0",
+  "description": "fennel fennel cutie fennel stab me with ur rapier",
+  "main": "bot.js",
+  "author": "yellow",
+  "dependencies": {
+    "dateformat": "^3.0.3",
+    "discord.io": "^2.5.3",
+    "discord.js": "^11.4.2",
+    "request": "^2.88.0",
+    "winston": "^3.1.0"
+  }
+}
