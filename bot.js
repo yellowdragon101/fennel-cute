@@ -90,12 +90,16 @@ const options = {
     }
 };
 
-setInterval(function() {
+update();
+setInterval(update, 1000 * 60);
+
+function update() {
+    console.log("Updating data...");
     request(options, function(err, res, body) {
         convertedBody = body.substring("var timerData = ".length, body.length - 1);
-        convertedBody = JSON.stringify(parseObjLiteral(convertedBody), null, 4);
+        convertedBody = JSON.stringify(parseObjLiteral("test" + convertedBody), null, 4);
         fs.writeFile("json.json", convertedBody, function(err, result) {
             if(err) return errorLogger(err);
         });
     });
-}, 1000 * 60);
+}
