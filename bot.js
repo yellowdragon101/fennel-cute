@@ -3,6 +3,8 @@ const client = new Discord.Client();
 const request = require('request');
 const fs = require('fs');
 const dateFormat = require('dateFormat');
+const JSON5 = require('json5');
+
 readJson('auth.json', (err, auth) => {
     client.login(auth.token);
     if(err) return errorLogger(err);
@@ -88,12 +90,17 @@ const options = {
     }
 };
 
-setInterval(function() {
+update();
+setInterval(update, 1000 * 60);
+
+function update() {
+    console.log("Updating data...");
     request(options, function(err, res, body) {
-        convertedBody = body.substring("var timerData = ".length, body.length - 1);
-        convertedBody = JSON.stringify(eval(convertedBody), null, 4);
+        convertedBody = body.substring("var timerData = ".length);
+        convertedBody = convertedBody.substring(0, convertedBody.length - 3);
+        convertedBody = JSON.stringify(JSON5.parse(convertedBody), null, 4);
         fs.writeFile("json.json", convertedBody, function(err, result) {
             if(err) return errorLogger(err);
         });
     });
-}, 1000 * 60);
+}
