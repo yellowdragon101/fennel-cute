@@ -3,6 +3,8 @@ const client = new Discord.Client();
 const request = require('request');
 const fs = require('fs');
 const dateFormat = require('dateFormat');
+const parseObjLiteral = require('parse-string-data');
+
 readJson('auth.json', (err, auth) => {
     client.login(auth.token);
     if(err) return errorLogger(err);
@@ -91,7 +93,7 @@ const options = {
 setInterval(function() {
     request(options, function(err, res, body) {
         convertedBody = body.substring("var timerData = ".length, body.length - 1);
-        convertedBody = JSON.stringify(eval(convertedBody), null, 4);
+        convertedBody = JSON.stringify(parseObjLiteral(convertedBody), null, 4);
         fs.writeFile("json.json", convertedBody, function(err, result) {
             if(err) return errorLogger(err);
         });
