@@ -8,7 +8,7 @@
     "dateformat": "^3.0.3",
     "discord.io": "^2.5.3",
     "discord.js": "^11.4.2",
-    "parse-string-data": "^1.0.0",
+    "json5": "^2.1.0",
     "request": "^2.88.0",
     "winston": "^3.1.0"
   }
