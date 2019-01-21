@@ -4,6 +4,7 @@ const request = require('request');
 const fs = require('fs');
 const dateFormat = require('dateFormat');
 const JSON5 = require('json5');
+
 readJson('auth.json', (err, auth) => {
     client.login(auth.token);
     if(err) return errorLogger(err);
