@@ -2,8 +2,10 @@ const Discord = require('discord.js');
 const client = new Discord.Client();
 const request = require('request');
 const fs = require('fs');
-const dateFormat = require('dateFormat');
+const dateFormat = require('dateformat');
 const JSON5 = require('json5');
+const schedule = require('node-schedule');
+const channel = client.channels.get["533492822502801408"];
 readJson('auth.json', (err, auth) => {
     client.login(auth.token);
     if(err) return errorLogger(err);
@@ -11,6 +13,12 @@ readJson('auth.json', (err, auth) => {
 
 client.on('ready', () => {
     console.log(`Logged in as ${client.user.tag}`);
+    client.user.setPresence({
+        game: { 
+            name: "kirara fantasia",
+            type: 'PLAYING'
+        },
+    });
 });
 
 class Commands {
@@ -51,7 +59,10 @@ commands.add("gacha", ["gachas"], function(message) {
             return `${entry.title[0]}: ${entry.timers[0].start} - ${entry.timers[0].end}`
         });
         console.log(data);
-        message.channel.send(data.join("\n") + "\n***All times JST** :flag_jp:");
+        if (data.length > 0) {
+            message.channel.send(data.join("\n") + "\n***All times JST** :flag_jp:");
+        }
+        else message.channel.send("There are no scheduled gachas.")
     });
     console.log(message.author.username + " wants to know the current gachas");
 });
@@ -64,7 +75,10 @@ commands.add("events", [], function(message) {
             return `${entry.title[0]}: ${entry.timers[0].start} - ${entry.timers[entry.timers.length-2].end}`
         });
         console.log(message.author.username + " wants to know the current event");
-        message.channel.send(data.join("\n") + "\n***All times JST** :flag_jp:");
+        if (data.length > 0) {
+            message.channel.send(data.join("\n") + "\n***All times JST** :flag_jp:");
+        }
+        else message.channel.send("There are no scheduled events.")
     });
 });
 
@@ -93,7 +107,10 @@ commands.add("eventshops", ["shops"], function(message) {
             return `${entry.name}: ${entry.start} - ${entry.end}`
         });
         console.log(message.author.username + " wants to know the current event shops")
-        message.channel.send(data.join("\n") + "\n***All times JST** :flag_jp:");
+        if (data.length > 0) {
+            message.channel.send(data.join("\n") + "\n***All times JST** :flag_jp:");
+        }
+        else message.channel.send("There are no current event shops.")
     });
 });
 
@@ -109,7 +126,7 @@ commands.add("sales", ["sale"], function(message) {
         if (data.length > 0) {
             message.channel.send(data.join("\n") + "\n***All times JST** :flag_jp:");
         }
-        else message.channel.send("There are no scheduled maintenances.")
+        else message.channel.send("There are no scheduled sales.")
     });
 });
 
@@ -125,7 +142,7 @@ commands.add("loginbonus", [], function(message) {
         if (data.length > 0) {
             message.channel.send(data.join("\n") + "\n***All times JST** :flag_jp:");
         }
-        else message.channel.send("There are no scheduled maintenances.")
+        else message.channel.send("There are no scheduled login bonuses.")
     });
 });
 
@@ -141,7 +158,7 @@ commands.add("campaigns", ["campaign"], function(message) {
         if (data.length > 0) {
             message.channel.send(data.join("\n") + "\n***All times JST** :flag_jp:");
         }
-        else message.channel.send("There are no scheduled maintenances.")
+        else message.channel.send("There are no scheduled campaigns.")
     });
 });
 
